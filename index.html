@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- ================= BASE ================= -->
+    <base href="/" />
+
+    <!-- ================= META ================= -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Viewport: все устройства, все версии -->
+    <meta name="viewport"
+          content="width=device-width,
+                 initial-scale=1.0,
+                 maximum-scale=1.0,
+                 user-scalable=no,
+                 viewport-fit=cover" />
+
+    <!-- ================= TITLE ================= -->
+    <title>LEWSH</title>
+
+    <!-- ================= ICONS ================= -->
+    <link rel="icon" href="favicon.ico" />
+
+    <!-- ================= PWA ================= -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- ================= IOS ================= -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="LEWSH" />
+
+    <!-- ================= ANDROID ================= -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- ================= PERFORMANCE ================= -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="width" />
+
+    <!-- ================= GLOBAL STYLE ================= -->
+    <style>
+        /* Reset для всех браузеров */
+        html, body {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background: transparent;
+          -webkit-text-size-adjust: 100%;
+          -ms-text-size-adjust: 100%;
+        }
+
+        /* Контейнер Flutter */
+        #flutter_container {
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+
+        /* Убираем выделения и баги старых WebView */
+        * {
+          -webkit-tap-highlight-color: transparent;
+          box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Контейнер Flutter -->
+<div id="flutter_container"></div>
+
+<!-- ================= FLUTTER ================= -->
+<script src="flutter.js" defer></script>
+
+<script>
+    (function () {
+      'use strict';
+
+      // Максимально безопасный запуск
+      function startFlutterApp() {
+        if (!window._flutter || !window._flutter.loader) {
+          setTimeout(startFlutterApp, 25);
+          return;
+        }
+
+        window._flutter.loader
+          .loadEntrypoint({
+            serviceWorker: {
+              serviceWorkerVersion: null
+            }
+          })
+          .then(function (engineInitializer) {
+            return engineInitializer.initializeEngine({
+              hostElement: document.getElementById('flutter_container')
+            });
+          })
+          .then(function (appRunner) {
+            return appRunner.runApp();
+          })
+          .catch(function (error) {
+            console.error('Flutter failed to load:', error);
+          });
+      }
+
+      // Запуск для всех браузеров
+      if (document.readyState === 'complete') {
+        startFlutterApp();
+      } else {
+        window.addEventListener('load', startFlutterApp, false);
+      }
+    })();
+</script>
+</body>
+</html>
