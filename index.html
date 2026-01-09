@@ -2,116 +2,878 @@
 <html lang="ru">
 <head>
     <!-- ================= BASE ================= -->
-    <base href="/" />
+    <base href="/">
 
     <!-- ================= META ================= -->
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- Viewport: все устройства, все версии -->
+    <!-- Адаптивный viewport для всех устройств -->
     <meta name="viewport"
           content="width=device-width,
                  initial-scale=1.0,
-                 maximum-scale=1.0,
-                 user-scalable=no,
-                 viewport-fit=cover" />
+                 maximum-scale=5.0,
+                 minimum-scale=0.5,
+                 viewport-fit=cover,
+                 user-scalable=yes">
 
-    <!-- ================= TITLE ================= -->
-    <title>LEWSH</title>
+    <!-- ================= TITLE & DESCRIPTION ================= -->
+    <title>LEWSH - Learn English with Shohrukh</title>
+    <meta name="description" content="Learn English with Shohrukh - интерактивное приложение для изучения английского языка">
+    <meta name="keywords" content="английский язык, обучение, образование, English, learning">
+    <meta name="author" content="Shohrukh">
 
     <!-- ================= ICONS ================= -->
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="favicon/android-icon-48x48.png" type="image/png">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="favicon/apple-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon/android-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="favicon/android-icon-144x144.png">
 
     <!-- ================= PWA ================= -->
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="manifest.json">
+    <meta name="application-name" content="LEWSH">
 
-    <!-- ================= IOS ================= -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="LEWSH" />
+    <!-- ================= IOS SPECIFIC ================= -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LEWSH">
 
-    <!-- ================= ANDROID ================= -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#ffffff" />
+    <!-- Safari pinned tab -->
+    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#2196F3">
 
-    <!-- ================= PERFORMANCE ================= -->
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="HandheldFriendly" content="true" />
-    <meta name="MobileOptimized" content="width" />
+    <!-- ================= ANDROID SPECIFIC ================= -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2196F3">
+    <meta name="msapplication-TileColor" content="#2196F3">
+    <meta name="msapplication-TileImage" content="favicon/android-icon-144x144.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
+
+    <!-- ================= SOCIAL MEDIA ================= -->
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="LEWSH">
+    <meta property="og:title" content="LEWSH - Learn English with Shohrukh">
+    <meta property="og:description" content="Интерактивное приложение для изучения английского языка">
+    <meta property="og:url" content="/">
+    <meta property="og:image" content="/favicon/android-icon-192x192.png">
+    <meta property="og:image:width" content="192">
+    <meta property="og:image:height" content="192">
+    <meta property="og:locale" content="ru_RU">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="LEWSH - Learn English with Shohrukh">
+    <meta name="twitter:description" content="Интерактивное приложение для изучения английского языка">
+    <meta name="twitter:image" content="/favicon/android-icon-192x192.png">
+
+    <!-- ================= PERFORMANCE & SECURITY ================= -->
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data:;
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:;
+                   style-src 'self' 'unsafe-inline';
+                   img-src 'self' data: blob: https:;
+                   font-src 'self' data:;
+                   connect-src 'self' ws: wss:;
+                   media-src 'self' data: blob:;
+                   worker-src 'self' blob:;">
 
     <!-- ================= GLOBAL STYLE ================= -->
     <style>
-        /* Reset для всех браузеров */
-        html, body {
-          width: 100%;
-          height: 100%;
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-          background: transparent;
-          -webkit-text-size-adjust: 100%;
-          -ms-text-size-adjust: 100%;
-        }
-
-        /* Контейнер Flutter */
-        #flutter_container {
-          width: 100%;
-          height: 100%;
-          position: relative;
-        }
-
-        /* Убираем выделения и баги старых WebView */
+        /* ===== CRITICAL CSS - Загружается мгновенно ===== */
         * {
-          -webkit-tap-highlight-color: transparent;
-          box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            background: #2196F3;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, sans-serif;
+        }
+
+        /* ===== FLUTTER CONTAINER ===== */
+        #flutter_target {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #flutter_target.loaded {
+            opacity: 1;
+        }
+
+        /* ===== SPLASH SCREEN ===== */
+        #splash_screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            padding: 20px;
+        }
+
+        #splash_screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite ease-in-out;
+            border-radius: 24px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .splash-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .splash-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .splash-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 300px;
+            line-height: 1.5;
+        }
+
+        .splash-loader {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .splash-progress {
+            height: 100%;
+            width: 0%;
+            background: white;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .splash-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                transparent 100%);
+            animation: shimmer 1.5s infinite;
+        }
+
+        .splash-status {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 15px;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        /* ===== ERROR SCREEN ===== */
+        #error_screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f5f5f5;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, sans-serif;
+        }
+
+        #error_screen.visible {
+            display: flex;
+        }
+
+        .error-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ff5252;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .error-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .error-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            max-width: 320px;
+            line-height: 1.5;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .error-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 140px;
+        }
+
+        .error-btn.primary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .error-btn.secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .error-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .error-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ===== SAFE AREAS (iPhone X+) ===== */
+        @supports (padding: max(0px)) {
+            #splash_screen,
+            #error_screen,
+            #flutter_target {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+
+            .splash-title {
+                padding-top: env(safe-area-inset-top);
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+        /* Мобильные (до 480px) */
+        @media (max-width: 480px) {
+            .splash-logo {
+                width: 100px;
+                height: 100px;
+                border-radius: 20px;
+            }
+
+            .splash-logo img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .splash-title {
+                font-size: 24px;
+            }
+
+            .splash-subtitle {
+                font-size: 14px;
+                max-width: 260px;
+            }
+
+            .splash-loader {
+                width: 180px;
+            }
+
+            .error-title {
+                font-size: 20px;
+            }
+
+            .error-message {
+                font-size: 14px;
+                max-width: 280px;
+            }
+
+            .error-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                min-width: 120px;
+            }
+        }
+
+        /* Планшеты (481px - 768px) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .splash-logo {
+                width: 140px;
+                height: 140px;
+            }
+
+            .splash-title {
+                font-size: 32px;
+            }
+
+            .splash-subtitle {
+                font-size: 18px;
+                max-width: 400px;
+            }
+        }
+
+        /* Ландшафтный режим */
+        @media (orientation: landscape) and (max-height: 500px) {
+            #splash_screen {
+                flex-direction: row;
+                gap: 30px;
+            }
+
+            .splash-logo {
+                margin-bottom: 0;
+                width: 80px;
+                height: 80px;
+            }
+
+            .splash-logo img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .splash-content {
+                text-align: left;
+            }
+
+            .splash-title {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            .splash-subtitle {
+                font-size: 14px;
+                margin-bottom: 15px;
+                max-width: 250px;
+            }
+
+            .splash-loader {
+                width: 150px;
+            }
+        }
+
+        /* ===== DARK MODE SUPPORT ===== */
+        @media (prefers-color-scheme: dark) {
+            #error_screen {
+                background: #1a1a1a;
+            }
+
+            .error-title {
+                color: #ffffff;
+            }
+
+            .error-message {
+                color: #aaaaaa;
+            }
+
+            .error-btn.secondary {
+                background: #333;
+                color: #ffffff;
+            }
+        }
+
+        /* ===== HIGH CONTRAST MODE ===== */
+        @media (prefers-contrast: high) {
+            #splash_screen {
+                background: #2196F3;
+            }
+
+            .splash-title,
+            .splash-subtitle,
+            .splash-status {
+                color: #000000;
+            }
+
+            .splash-progress {
+                background: #000000;
+            }
+        }
+
+        /* ===== REDUCED MOTION ===== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .splash-logo {
+                animation: none;
+            }
+
+            .splash-progress::after {
+                animation: none;
+                display: none;
+            }
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            #splash_screen,
+            #error_screen,
+            #flutter_target {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+                color: black !important;
+                overflow: visible !important;
+                height: auto !important;
+                position: static !important;
+            }
+
+            body::before {
+                content: "LEWSH - Learn English with Shohrukh";
+                font-size: 24px;
+                font-weight: bold;
+                display: block;
+                margin: 50px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 
 <body>
-<!-- Контейнер Flutter -->
-<div id="flutter_container"></div>
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash_screen">
+    <div class="splash-logo">
+        <!-- Можно заменить на ваше лого -->
+        <div style="color: #2196F3; font-size: 48px; font-weight: bold;">LE</div>
+    </div>
 
-<!-- ================= FLUTTER ================= -->
+    <div class="splash-content">
+        <h1 class="splash-title">LEWSH</h1>
+        <p class="splash-subtitle">Learn English with Shohrukh</p>
+
+        <div class="splash-loader">
+            <div class="splash-progress" id="splash_progress"></div>
+        </div>
+
+        <div class="splash-status" id="splash_status">Загружаем приложение...</div>
+    </div>
+</div>
+
+<!-- ===== ERROR SCREEN ===== -->
+<div id="error_screen">
+    <div class="error-icon">⚠️</div>
+    <h1 class="error-title" id="error_title">Ошибка загрузки</h1>
+    <p class="error-message" id="error_message">
+        Не удалось загрузить приложение. Пожалуйста, проверьте подключение к интернету.
+    </p>
+
+    <div class="error-actions">
+        <button class="error-btn primary" onclick="retryApp()">Повторить</button>
+        <button class="error-btn secondary" onclick="checkConnection()">Проверить сеть</button>
+    </div>
+
+    <div style="margin-top: 30px; font-size: 12px; color: #999;">
+        <p id="error_details"></p>
+    </div>
+</div>
+
+<!-- ===== FLUTTER CONTAINER ===== -->
+<div id="flutter_target"></div>
+
+<!-- ================= FLUTTER RUNTIME ================= -->
 <script src="flutter.js" defer></script>
 
+<!-- ================= APP LOADER ================= -->
 <script>
-    (function () {
-      'use strict';
+    'use strict';
 
-      // Максимально безопасный запуск
-      function startFlutterApp() {
-        if (!window._flutter || !window._flutter.loader) {
-          setTimeout(startFlutterApp, 25);
-          return;
+    // Конфигурация приложения
+    const AppConfig = {
+        APP_NAME: 'LEWSH',
+        APP_VERSION: '1.0.0',
+        MAX_RETRIES: 3,
+        RETRY_DELAY: 2000,
+        LOAD_TIMEOUT: 30000,
+        PROGRESS_STEPS: [10, 20, 35, 50, 65, 80, 90, 95, 98, 100],
+        OFFLINE_MESSAGE: 'Требуется подключение к интернету'
+    };
+
+    // Состояние приложения
+    const AppState = {
+        retryCount: 0,
+        progressIndex: 0,
+        timeoutId: null,
+        isLoaded: false,
+        isOnline: navigator.onLine,
+        startTime: Date.now()
+    };
+
+    // DOM элементы
+    const splashScreen = document.getElementById('splash_screen');
+    const errorScreen = document.getElementById('error_screen');
+    const flutterTarget = document.getElementById('flutter_target');
+    const splashProgress = document.getElementById('splash_progress');
+    const splashStatus = document.getElementById('splash_status');
+    const errorTitle = document.getElementById('error_title');
+    const errorMessage = document.getElementById('error_message');
+    const errorDetails = document.getElementById('error_details');
+
+    // Функции управления UI
+    function updateProgress(percent) {
+        if (splashProgress) {
+            splashProgress.style.width = percent + '%';
+        }
+    }
+
+    function updateStatus(text) {
+        if (splashStatus) {
+            splashStatus.textContent = text;
+        }
+    }
+
+    function simulateProgress() {
+        if (AppState.progressIndex < AppConfig.PROGRESS_STEPS.length) {
+            const progress = AppConfig.PROGRESS_STEPS[AppState.progressIndex];
+            updateProgress(progress);
+            AppState.progressIndex++;
+
+    // Обновляем статус в зависимости от прогресса
+                const statuses = [
+                    'Инициализация...',
+                    'Загрузка ресурсов...',
+                    'Подготовка интерфейса...',
+                    'Почти готово...'
+                ];
+
+                if (AppState.progressIndex <= statuses.length) {
+                    updateStatus(statuses[AppState.progressIndex - 1]);
+                }
+
+                if (!AppState.isLoaded) {
+                    const delay = 300 + Math.random() * 400;
+                    setTimeout(simulateProgress, delay);
+                }
+            }
         }
 
-        window._flutter.loader
-          .loadEntrypoint({
-            serviceWorker: {
-              serviceWorkerVersion: null
-            }
-          })
-          .then(function (engineInitializer) {
-            return engineInitializer.initializeEngine({
-              hostElement: document.getElementById('flutter_container')
-            });
-          })
-          .then(function (appRunner) {
-            return appRunner.runApp();
-          })
-          .catch(function (error) {
-            console.error('Flutter failed to load:', error);
-          });
-      }
+        function showError(title, message, details = '') {
+            if (errorTitle) errorTitle.textContent = title;
+            if (errorMessage) errorMessage.textContent = message;
+            if (errorDetails) errorDetails.textContent = details;
 
-      // Запуск для всех браузеров
-      if (document.readyState === 'complete') {
-        startFlutterApp();
-      } else {
-        window.addEventListener('load', startFlutterApp, false);
-      }
-    })();
+            splashScreen.classList.add('hidden');
+            errorScreen.classList.add('visible');
+
+            clearTimeout(AppState.timeoutId);
+        }
+
+        function hideSplash() {
+            splashScreen.classList.add('hidden');
+            if (flutterTarget) {
+                flutterTarget.classList.add('loaded');
+            }
+
+            clearTimeout(AppState.timeoutId);
+
+            // Отправляем метрику загрузки
+            const loadTime = Date.now() - AppState.startTime;
+            console.log(`[LEWSH] Приложение загружено за ${loadTime}ms`);
+
+            // Сохраняем в localStorage для аналитики
+            try {
+                const stats = JSON.parse(localStorage.getItem('app_stats') || '{"loads": []}');
+                stats.loads.push({
+                    timestamp: Date.now(),
+                    duration: loadTime,
+                    success: true,
+                    retries: AppState.retryCount
+                });
+
+                // Храним только последние 100 записей
+                if (stats.loads.length > 100) {
+                    stats.loads = stats.loads.slice(-100);
+                }
+
+                localStorage.setItem('app_stats', JSON.stringify(stats));
+            } catch (e) {
+                console.warn('Не удалось сохранить статистику:', e);
+            }
+        }
+
+        // Основная функция запуска Flutter
+        async function initializeFlutter() {
+            updateStatus('Инициализация Flutter...');
+
+            try {
+                // Проверяем доступность Flutter runtime
+                if (!window._flutter || !window._flutter.loader) {
+                    throw new Error('Flutter runtime не найден');
+                }
+
+                // Загружаем Flutter
+                const engineInitializer = await window._flutter.loader.loadEntrypoint({
+                    serviceWorker: {
+                        serviceWorkerVersion: null
+                    }
+                });
+
+                updateStatus('Запуск движка...');
+
+                // Инициализируем движок
+                const appRunner = await engineInitializer.initializeEngine({
+                    hostElement: flutterTarget,
+                    renderer: 'canvaskit', // Оптимально для большинства устройств
+                    // renderer: 'html' // Альтернатива для старых устройств
+                });
+
+                updateStatus('Запуск приложения...');
+
+                // Запускаем приложение
+                await appRunner.runApp();
+
+                // Успешная загрузка
+                AppState.isLoaded = true;
+                updateProgress(100);
+                updateStatus('Готово!');
+
+                // Плавно скрываем сплеш-скрин
+                setTimeout(hideSplash, 500);
+
+            } catch (error) {
+                console.error('[LEWSH] Ошибка загрузки:', error);
+
+                let errorTitle = 'Ошибка загрузки';
+                let errorMessage = AppConfig.OFFLINE_MESSAGE;
+                let errorDetails = error.message || '';
+
+                if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Проблемы с подключением к серверу';
+                } else if (error.message.includes('Flutter runtime')) {
+                    errorMessage = 'Ошибка загрузки приложения';
+                }
+
+                showError(errorTitle, errorMessage, errorDetails);
+
+                // Автоматический ретрай
+                if (AppState.retryCount < AppConfig.MAX_RETRIES) {
+                    setTimeout(retryApp, AppConfig.RETRY_DELAY);
+                }
+            }
+        }
+
+        // Функции для кнопок ошибок
+        window.retryApp = function() {
+            AppState.retryCount++;
+
+            if (errorScreen) {
+                errorScreen.classList.remove('visible');
+            }
+
+            if (splashScreen) {
+                splashScreen.classList.remove('hidden');
+                updateStatus(`Попытка ${AppState.retryCount} из ${AppConfig.MAX_RETRIES}...`);
+            }
+
+            startApp();
+        };
+
+        window.checkConnection = function() {
+            if (navigator.onLine) {
+                errorMessage.textContent = 'Подключение есть. Попробуйте снова.';
+                retryApp();
+            } else {
+                errorMessage.textContent = 'Нет подключения к интернету. Проверьте сеть.';
+            }
+        };
+
+        // Функция таймаута
+        function setupTimeout() {
+            AppState.timeoutId = setTimeout(() => {
+                if (!AppState.isLoaded) {
+                    showError(
+                        'Время загрузки истекло',
+                        'Приложение загружается слишком долго',
+                        'Проверьте скорость интернета или попробуйте позже'
+                    );
+                }
+            }, AppConfig.LOAD_TIMEOUT);
+        }
+
+        // Основная функция запуска
+        function startApp() {
+            AppState.startTime = Date.now();
+            AppState.progressIndex = 0;
+            updateProgress(0);
+            updateStatus('Подготовка...');
+
+            simulateProgress();
+            setupTimeout();
+
+            // Проверяем онлайн статус
+            if (!navigator.onLine) {
+                showError('Нет подключения', AppConfig.OFFLINE_MESSAGE, 'Требуется интернет для первой загрузки');
+                return;
+            }
+
+            // Запускаем Flutter
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeFlutter);
+            } else {
+                initializeFlutter();
+            }
+        }
+
+        // Обработчики событий
+        window.addEventListener('online', () => {
+            AppState.isOnline = true;
+            if (errorScreen.classList.contains('visible')) {
+                errorMessage.textContent = 'Подключение восстановлено. Попробуйте снова.';
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            AppState.isOnline = false;
+            if (!AppState.isLoaded) {
+                showError('Потеряно соединение', AppConfig.OFFLINE_MESSAGE, 'Ожидание подключения...');
+            }
+        });
+
+        window.addEventListener('error', (event) => {
+            if (!AppState.isLoaded) {
+                console.error('Глобальная ошибка:', event.error);
+            }
+        });
+
+        // Service Worker регистрация
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('flutter_service_worker.js?v=3650530832')
+                    .then(registration => {
+                        console.log('[LEWSH] Service Worker зарегистрирован:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.warn('[LEWSH] Service Worker не зарегистрирован:', error);
+                    });
+            });
+        }
+
+        // Запуск приложения
+        startApp();
+
+        // Экспорт для отладки
+        window.LEWSH = {
+            version: AppConfig.APP_VERSION,
+            retry: retryApp,
+            getStats: () => {
+                try {
+                    return JSON.parse(localStorage.getItem('app_stats') || '{}');
+                } catch {
+                    return {};
+                }
+            },
+            clearCache: () => {
+                if (caches) {
+                    caches.keys().then(names => {
+                        names.forEach(name => caches.delete(name));
+                    });
+                }
+                localStorage.removeItem('app_stats');
+                location.reload();
+            }
+        };
 </script>
 </body>
 </html>
