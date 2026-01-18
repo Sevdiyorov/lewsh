@@ -1,210 +1,38 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
+    <!--
+      If you are serving your web app in a path other than the root, change the
+      href value below to reflect the base path you are serving from.
+
+      The path provided below has to start and end with a slash "/" in order for
+      it to work correctly.
+
+      For more details:
+      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+      This is a placeholder for base href that will be replaced by the value of
+      the `--base-href` argument provided to `flutter build`.
+    -->
+    <base href="/">
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEWSH - Learn English</title>
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="Online.">
 
-    <!-- PWA минимум -->
+    <!-- iOS meta tags & icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="gemilina">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png"/>
+
+    <title>gemilina</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2196F3">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-
-    <style>
-        /* ВСЁ ЧТО НУЖНО ДЛЯ РАБОТЫ */
-        * { margin: 0; padding: 0; }
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #2196F3;
-        }
-
-        /* Контейнер Flutter - сразу готов */
-        #app {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-
-        /* Заставка - простая и быстрая */
-        #splash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #2196F3;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.3s;
-        }
-
-        /* Лого в CSS - никаких файлов */
-        .logo {
-            width: 100px;
-            height: 100px;
-            background: white;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .logo-text {
-            font-size: 40px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #2196F3, #1976D2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-family: Arial, sans-serif;
-        }
-
-        .title {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-family: Arial, sans-serif;
-        }
-
-        .subtitle {
-            color: rgba(255,255,255,0.8);
-            font-size: 14px;
-            margin-bottom: 30px;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Прогресс-бар */
-        .progress {
-            width: 200px;
-            height: 3px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: white;
-            transition: width 0.3s;
-        }
-
-        /* Текст загрузки */
-        .loading-text {
-            color: rgba(255,255,255,0.7);
-            font-size: 12px;
-            margin-top: 15px;
-            font-family: Arial, sans-serif;
-        }
-    </style>
 </head>
 <body>
-<!-- Заставка -->
-<div id="splash">
-    <div class="logo">
-        <div class="logo-text">LE</div>
-    </div>
-    <div class="title">LEWSH</div>
-    <div class="subtitle">Learn English with Shohrukh</div>
-
-    <div class="progress">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <div class="loading-text" id="status">Загрузка...</div>
-</div>
-
-<!-- Приложение -->
-<div id="app"></div>
-
-<!-- Flutter -->
-<script src="flutter.js"></script>
-
-<!-- САМЫЙ ПРОСТОЙ СКРИПТ -->
-<script>
-    // Элементы
-    const splash = document.getElementById('splash');
-    const progressBar = document.getElementById('progressBar');
-    const status = document.getElementById('status');
-    const app = document.getElementById('app');
-
-    // Простой прогресс
-    let progress = 0;
-    const progressInterval = setInterval(() => {
-        if (progress < 90) {
-            progress += 1 + Math.random() * 3;
-            progressBar.style.width = progress + '%';
-
-            // Меняем статус
-            if (progress < 30) status.textContent = 'Загрузка модулей...';
-            else if (progress < 60) status.textContent = 'Подготовка...';
-            else status.textContent = 'Запуск...';
-        }
-    }, 100);
-
-    // Главная функция запуска
-    function startApp() {
-        // Проверяем Flutter
-        if (!window._flutter || !window._flutter.loader) {
-            setTimeout(startApp, 50);
-            return;
-        }
-
-        // Запускаем
-        window._flutter.loader.loadEntrypoint({
-            serviceWorker: { serviceWorkerVersion: null }
-        })
-        .then(engine => engine.initializeEngine({
-            hostElement: app,
-            renderer: 'html' // Самый совместимый
-        }))
-        .then(appRunner => appRunner.runApp())
-        .then(() => {
-            // Успех
-            clearInterval(progressInterval);
-            progressBar.style.width = '100%';
-            status.textContent = 'Готово!';
-
-            // Быстро скрываем заставку
-            setTimeout(() => {
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                }, 300);
-            }, 300);
-        })
-        .catch(err => {
-            // Ошибка - просто обновляем
-            console.log('Ошибка:', err);
-            status.textContent = 'Ошибка. Обновление...';
-            setTimeout(() => location.reload(), 1000);
-        });
-    }
-
-    // Запускаем сразу
-    startApp();
-
-    // Для старых устройств - fallback
-    setTimeout(() => {
-        if (splash.style.display !== 'none') {
-            startApp(); // Пробуем еще раз
-        }
-    }, 5000);
-
-    // Сервис воркер для PWA
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('flutter_service_worker.js?v=3941562717')
-            .catch(() => { /* Игнорируем ошибки */ });
-    }
-</script>
+<script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
